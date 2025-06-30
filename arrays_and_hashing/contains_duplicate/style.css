@@ -1,0 +1,28 @@
+body{
+    font-family: Arial, sans-serif;
+    padding: 2rem;
+    background-color: #000000;
+}
+
+section{
+    background-color: #636363;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1{
+    text-align: center;
+    color: #d8d8d8;
+    margin-bottom: 2rem;
+}
+
+h2{
+    color: #d8d8d8;
+    margin-bottom: 1rem;
+}
+
+code{
+    color: #d8d8d8;
+}

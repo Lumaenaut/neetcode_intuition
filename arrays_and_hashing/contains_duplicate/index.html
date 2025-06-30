@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neetcode Intuition: Contains Duplicate</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <h1>Contains Duplicate</h1>
+    <section id="intuition">
+        <h2>intuition</h2>
+    </section>
+    <section id="pseudocode">
+        <h2>pseudocode</h2>
+    </section>
+    <section id="code">
+        <h2>code</h2>
+        <pre><code>
+class Solution:
+
+    def has_duplicate(self, nums: list[int]) -> bool:
+        
+        hashset = set(nums)
+
+        return len(hashset) &lt; len(nums)
+
+        
+nums = [1,2,3,3]
+sol = Solution()
+
+print(sol.has_duplicate(nums))
+        </code></pre>
+    </section>
+    <script src="script.js"></script>
+</body>
+</html>
