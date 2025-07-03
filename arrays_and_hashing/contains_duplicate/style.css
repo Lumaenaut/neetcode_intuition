@@ -4,6 +4,37 @@ body{
     background-color: #000000;
 }
 
+h1{
+    text-align: center;
+    color: #d8d8d8;
+    margin-bottom: 2rem;
+}
+
+/* Container for two-column layout */
+.container{
+    display: flex;
+    gap: 2rem;
+}
+
+/* Left column */
+.left-column{
+    flex: 1;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 30%;
+}
+
+/* Right column */
+.right-column{
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+
 section{
     background-color: #636363;
     border-radius: 12px;
@@ -12,11 +43,7 @@ section{
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-h1{
-    text-align: center;
-    color: #d8d8d8;
-    margin-bottom: 2rem;
-}
+
 
 h2{
     color: #d8d8d8;
