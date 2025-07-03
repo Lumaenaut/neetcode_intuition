@@ -13,7 +13,9 @@ h1{
 /* Container for two-column layout */
 .container{
     display: flex;
+    flex-wrap: wrap;
     gap: 2rem;
+    align-items: flex-start;
 }
 
 /* Left column */
@@ -43,11 +45,20 @@ section{
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-
-
 h2{
     color: #d8d8d8;
     margin-bottom: 1rem;
+}
+
+pre{
+    background-color: #1e1e1e;
+    color: #dcdcdc;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: "Courier New", monospace;
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
 code{
