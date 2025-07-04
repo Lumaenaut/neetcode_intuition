@@ -1,3 +1,21 @@
+<!--
+To do:
+    Functionality:
+        Inputs:
+            changing values: scroll, virtual buttons, arrowkeys ...
+        intuition:
+            place the list with it's slider
+            place buttons above every value in the list
+            create a dynamic visual set that changes depending on the list contents
+
+    Place all the content and functionality before worrying about the aesthetics
+
+    Aesthetics:
+        Change font and size
+        Create a dark and a light font
+        Can I create colors separately and use them as necessary instead of setting colors for each element?
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,11 +26,14 @@
 </head>
 <body>
     <h1>Contains Duplicate</h1>
-    
-    <div class="container"> <!-- Why engulf everything in this div? -->
+    <div class="container">
         <!-- Left side -->
         <section id="intuition" class="left-column">
             <h2>intuition</h2>
+            <div class="intuition-list-wrapper">
+                <p><strong>nums =</strong> [ <span id="num-list"></span> ]</p>
+                <div id="handle" title="Drag to resize list">&lt;&gt;</div>
+            </div>
         </section>
         <!-- Right side -->
         <div class="right-column">
@@ -26,9 +47,7 @@ class Solution:
 
     def has_duplicate(self, nums: list[int]) -> bool:
         
-        hashset = set(nums)
-
-        return len(hashset) &lt; len(nums)
+        return len(set(nums)) &lt; len(nums)
 
         
 nums = [1,2,3,3]
