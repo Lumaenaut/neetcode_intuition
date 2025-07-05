@@ -2,7 +2,9 @@
 To do:
     Functionality:
         Inputs:
-            changing values: scroll, virtual buttons, arrowkeys ...
+            changing values with scroll, virtual buttons, arrowkeys ...
+            Add a button that randomizes the numbers in the list
+            
         intuition:
             place the list with it's slider
             place buttons above every value in the list
@@ -14,6 +16,10 @@ To do:
         Change font and size
         Create a dark and a light font
         Can I create colors separately and use them as necessary instead of setting colors for each element?
+    
+        Animations:
+            Once you start hovering above a list value, a couple of arrows should appear (above and below).
+            The resizing should look smooth.
 -->
 
 <!DOCTYPE html>
@@ -24,22 +30,28 @@ To do:
     <title>Contains Duplicate</title>
     <link rel="stylesheet" href="style.css"/>
 </head>
+
 <body>
     <h1>Contains Duplicate</h1>
+
+    <!-- div contains both columns -->
     <div class="container">
-        <!-- Left side -->
+
+        <!-- left column -->
         <section id="intuition" class="left-column">
             <h2>intuition</h2>
             <div class="intuition-list-wrapper">
-                <p><strong>nums =</strong> [ <span id="num-list"></span> ]</p>
+                <p>nums = [ <span id="num-list"></span> ]</p>
                 <div id="handle" title="Drag to resize list">&lt;&gt;</div>
             </div>
         </section>
-        <!-- Right side -->
+
+        <!-- right column -->
         <div class="right-column">
             <section id="pseudocode">
                 <h2>pseudocode</h2>
             </section>
+
             <section id="code">
                 <h2>code</h2>
                 <pre><code>
@@ -56,6 +68,7 @@ sol = Solution()
 print(sol.has_duplicate(nums))
                 </code></pre>
             </section>
+
             <section id="efficiency">
                 <h2>efficiency</h2>
                 <p>Why is this efficient?</p>

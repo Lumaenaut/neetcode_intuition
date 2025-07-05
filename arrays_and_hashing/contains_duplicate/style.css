@@ -10,7 +10,7 @@ h1 {
     margin-bottom: 2rem;
 }
 
-.container { /* Container for two-column layout */
+.container { /* container for two-column layout */
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
@@ -105,4 +105,23 @@ code {
         max-width: 100%;
         flex: unset;
     }
+}
+
+.list-input {
+    width: 3rem;
+    padding: 0.3rem;
+    font-size: 1rem;
+    text-align: center;
+    margin: 0 0.25rem;
+    border: none;
+    border-radius: 6px;
+    background-color: #1e1e1e;
+    color: #dcdcdc;
+    outline: none;
+    transition: background-color 0.2s ease;
+}
+
+.list-input:hover,
+.list-input:focus {
+    background-color: #333333;
 }
