@@ -74,9 +74,11 @@ code {
 }
 
 #num-list {
-    white-space: nowrap;
-    font-family: monospace;
-    font-size: 1.2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;   /* aligns arrow + input columns neatly */
+    flex-wrap: wrap;         /* allows wrapping on smaller screens */
+    gap: 0.5rem;             /* spacing between each list item */
 }
 
 #handle {
@@ -133,7 +135,46 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0;
 }
 
-/* Remove number input spinner for Firefox */
-input[type=number] {
-    -moz-appearance: textfield;
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 0.5rem;
+    position: relative;
+}
+
+.arrow {
+    font-size: 0.75rem;
+    color: #999;
+    cursor: pointer;
+    visibility: hidden; /* hide by default */
+    user-select: none;
+    transition: color 0.2s ease;
+}
+
+.arrow:hover {
+    color: #ffffff;
+}
+
+/* Show arrows only when hovering the wrapper */
+.input-wrapper:hover .arrow {
+    visibility: visible;
+}
+
+.list-input {
+    width: 3rem;
+    padding: 0.3rem;
+    font-size: 1rem;
+    text-align: center;
+    border: none;
+    border-radius: 6px;
+    background-color: #1e1e1e;
+    color: #dcdcdc;
+    outline: none;
+    transition: background-color 0.2s ease;
+}
+
+.list-input:hover,
+.list-input:focus {
+    background-color: #333333;
 }

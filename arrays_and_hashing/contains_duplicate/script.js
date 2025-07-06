@@ -12,6 +12,21 @@ function renderList(length) {                                   // called everyt
     const displayList = baseList.slice(0, length);              // displayLIst is a slice of baseList (complete list)
 
     displayList.forEach((value, index) => {                     // looping through each value and it's respective index
+        // overall input wrapper
+        const wrapper = document.createElement('div');          // creating a wrapper to include arrows on top and bottom of <input>
+        wrapper.className = 'input-wrapper';
+        
+        // up arrow button
+        const upArrow = document.createElement('div');          // creating a div for the up arrow
+        upArrow.className = 'arrow up';
+        upArrow.textContent = '▲';
+        
+        upArrow.addEventListener('click', () => {
+            baseList[index]++;
+            renderList(currentLength);
+        });
+
+        // input field
         const input = document.createElement('input');          // creating a new input element
         input.type = 'number';                                  // setting the input type as number (includes a spinner)
         input.value = value;                                    // setting the value as the current value in the loop
@@ -23,7 +38,21 @@ function renderList(length) {                                   // called everyt
             baseList[i] = parseInt(e.target.value);             // setting the value to the baseList corresponding index
         });
 
-        numListEl.appendChild(input);                           // inserts the new <input> into the document
+        // down arrow button
+        const downArrow = document.createElement('div');        // creating a div for the up arrow
+        downArrow.className = 'arrow down';
+        downArrow.textContent = '▼';
+        
+        downArrow.addEventListener('click', () => {
+            baseList[index]--;
+            renderList(currentLength);
+        });
+
+        // assemble previous elements
+        wrapper.appendChild(upArrow);
+        wrapper.appendChild(input);
+        wrapper.appendChild(downArrow);
+        numListEl.appendChild(wrapper);                         // inserts the new <input> into the document
 
         if (index < displayList.length - 1) {                   // add a comma between each <input> unless it's the last value, index iteration 
             const comma = document.createElement('span');       // create a <span> element

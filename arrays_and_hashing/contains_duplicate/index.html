@@ -3,13 +3,14 @@ To do:
     Functionality:
         Inputs:
             changing values with scroll, virtual buttons, arrowkeys ...
-                Add a couple of arrows above and below the <input> that help edit the value
             
             Add a button that randomizes the numbers in the list
-            Validate each input: just values between 0 and 9 and no empty values.
 
         intuition:
             create a dynamic visual set that changes depending on the list contents
+
+        validations:
+            Validate each input: just values between 0 and 9 and no empty values.
 
     Place all the content and functionality before worrying about the aesthetics
 
@@ -17,7 +18,10 @@ To do:
 
     Aesthetics:
         Change font and size
-        Create a dark and a light font
+            The arrows are too small and difficult to press
+            change separation between each <div> container. It looks too big.
+                
+        Create a dark and a light theme
         Can I create colors separately and use them as necessary instead of setting colors for each element?
     
         Animations:
@@ -44,7 +48,7 @@ To do:
         <section id="intuition" class="left-column">
             <h2>intuition</h2>
             <div class="intuition-list-wrapper">
-                <p>nums = [ <span id="num-list"></span> ]</p>
+                <p>nums = [ <div id="num-list"></div> ]</p>
                 <div id="handle" title="Drag to resize list">&lt;&gt;</div>
             </div>
         </section>
