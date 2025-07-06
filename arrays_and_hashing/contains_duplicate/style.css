@@ -125,3 +125,15 @@ code {
 .list-input:focus {
     background-color: #333333;
 }
+
+/* Remove number input spinner for Chrome, Safari, Edge */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Remove number input spinner for Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
