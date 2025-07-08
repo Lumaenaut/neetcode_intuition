@@ -178,3 +178,24 @@ input[type=number]::-webkit-outer-spin-button {
 .list-input:focus {
     background-color: #333333;
 }
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+#randomize-btn {
+    background-color: #444;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 0.95rem;
+}
+
+#randomize-btn:hover {
+    background-color: #666;
+}

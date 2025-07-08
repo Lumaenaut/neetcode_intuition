@@ -1,18 +1,12 @@
 <!--
 To do:
     Functionality:
-        Inputs:
-            changing values with scroll, virtual buttons, arrowkeys ...
-            
-            Add a button that randomizes the numbers in the list
-
         intuition:
             create a dynamic visual set that changes depending on the list contents
 
-        validations:
-            Validate each input: just values between 0 and 9 and no empty values.
-
-    Place all the content and functionality before worrying about the aesthetics
+        Section visibility:
+            The intuition section should be the one that's visible by default.
+            The rest of the sections should be hidden. User can click an arrow that expands the section to elaborate.
 
 #############################################################################################################################################
 
@@ -27,6 +21,7 @@ To do:
         Animations:
             Once you start hovering above a list value, a couple of arrows should appear (above and below).
             The resizing should look smooth.
+            Subtle animation when the values change when using keyboard and scroll wheel
 -->
 
 <!DOCTYPE html>
@@ -50,6 +45,9 @@ To do:
             <div class="intuition-list-wrapper">
                 <p>nums = [ <div id="num-list"></div> ]</p>
                 <div id="handle" title="Drag to resize list">&lt;&gt;</div>
+            </div>
+            <div class="button-container">
+                <button id="randomize-btn">random</button>
             </div>
         </section>
 
