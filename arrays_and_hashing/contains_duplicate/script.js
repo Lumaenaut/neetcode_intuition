@@ -152,21 +152,15 @@ function renderList(length) {                                   // called everyt
             const i = parseInt(input.dataset.index);
             let val = parseInt(input.value);
 
-            if (isNaN(val)) {
-                val = 0;
-                input.value = val; // reflect correction in the UI
-            }
+            if (isNaN(val)) val = 0;
 
+            val = clamp(val, MIN_VALUE, MAX_VALUE);
+            input.value = val; // reflect the clamped value in UI
             updateValue(i, 0, val);
 
+            // Always trigger re-render, but wait a frame so tabbing isn't broken
             requestAnimationFrame(() => {
-                const active = document.activeElement;
-
-                if (!active || !active.classList.contains('list-input')) {
-                    lastFocusedIndex = null;
-                    renderListAndSet();
-                }
-                
+                renderListAndSet();
             });
 
         });
@@ -207,6 +201,7 @@ function renderList(length) {                                   // called everyt
 
         input.addEventListener('focus', () => {
             lastFocusedIndex = index;
+            input.select(); // auto-select text on focus
         });
 
         // down arrow button
@@ -228,26 +223,6 @@ function renderList(length) {                                   // called everyt
         }
         
     });
-
-    const currentlyFocused = document.activeElement;
-    const expectedFocusedId = `list-input-${lastFocusedIndex}`;
-
-    if (
-        lastFocusedIndex !== null &&
-        (!currentlyFocused || currentlyFocused.id !== expectedFocusedId)
-    ) {
-        const toFocus = document.getElementById(expectedFocusedId);
-
-        if (toFocus) {
-
-            setTimeout(() => {
-                toFocus.focus();
-                toFocus.select();
-            }, 0);
-
-        }
-
-    }
 
 }
 
