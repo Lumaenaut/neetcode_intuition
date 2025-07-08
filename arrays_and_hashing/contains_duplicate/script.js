@@ -23,6 +23,8 @@ const randomizeBtn = document.getElementById('randomize-btn');
 let currentLength = 4;                                          // initial list size
 let isDragging = false;                                         // used when mouse is dragging
 let startX = 0;
+let holdIntervals = new Map();
+let lastFocusedIndex = null;
 
 /*
 *************************************
@@ -39,12 +41,18 @@ function clamp(value, min, max) {
 }
 
 function updateValue(index, delta = 0, newValue = null) {
+    
     if (newValue !== null) {
         baseList[index] = clamp(newValue, MIN_VALUE, MAX_VALUE);
     } else {
         baseList[index] = clamp(baseList[index] + delta, MIN_VALUE, MAX_VALUE);
     }
+
+}
+
+function renderListAndSet () {
     renderList(currentLength);
+    renderSetList(currentLength);
 }
 
 function randomizeBaseList() {
@@ -53,8 +61,44 @@ function randomizeBaseList() {
         baseList[i] = getRandomInt(0, 5);
     }
     
-    renderList(currentLength);
+    renderListAndSet();
 }
+
+function attachHoldHandler(button, index, direction) {
+    let intervalId = null;
+
+    const step = () => {
+        const prev = baseList[index];
+        updateValue(index, direction);
+        const next = baseList[index];
+
+        if (prev !== next) {
+            // Only re-render if the value actually changed
+            renderListAndSet();
+        } else {
+            stop(); // reached max/min
+        }
+
+    };
+
+    const start = () => {
+        step(); // First step immediately
+        intervalId = setInterval(step, 150);
+    };
+
+    const stop = () => {
+        if (intervalId !== null) {
+            clearInterval(intervalId);
+            intervalId = null;
+        }
+    };
+
+    button.addEventListener('mousedown', start);
+    button.addEventListener('mouseup', stop);
+    button.addEventListener('mouseleave', stop);
+    document.addEventListener('mouseup', stop);
+}
+
 
 /*
 *************************************
@@ -63,6 +107,13 @@ RENDERING ***************************
 */
 
 function renderList(length) {                                   // called everytime a portion of the list needs to be graphically rendered
+
+    for (const interval of holdIntervals.values()) {
+        clearInterval(interval);
+    }
+
+    holdIntervals.clear();
+    
     numListEl.innerHTML = '';                                   // empties the displayed list
     const displayList = baseList.slice(0, length);              // displayLIst is a slice of baseList (complete list)
 
@@ -75,7 +126,7 @@ function renderList(length) {                                   // called everyt
         const upArrow = document.createElement('div');          // creating a div for the up arrow
         upArrow.className = 'arrow up';
         upArrow.textContent = '▲';
-        upArrow.addEventListener('click', () => updateValue(index, +1));
+        attachHoldHandler(upArrow, index, +1);
 
         // input field
         const input = document.createElement('input');          // creating a new input element
@@ -83,12 +134,63 @@ function renderList(length) {                                   // called everyt
         input.value = value;                                    // setting the value as the current value in the loop
         input.className = "list-input";                         // setting the className as 'list-input'
         input.dataset.index = index;                            // storing it's position in baseList
+        input.id = `list-input-${index}`;
 
-            // type editing
-        input.addEventListener('input', (e) => {                // adding an event listener that updates the value in this input field
-            const i = parseInt(e.target.dataset.index);         // getting the index of the value
-            let val = e.target.value === '' ? 0 : parseInt(e.target.value);
+        // type editing
+        input.addEventListener('input', (e) => {
+            const i = parseInt(e.target.dataset.index);
+            const raw = e.target.value;
+            let val = parseInt(raw);
+
+            if (!isNaN(val)) {
+                updateValue(i, 0, val);
+            }
+    
+        });
+
+        input.addEventListener('blur', () => {
+            const i = parseInt(input.dataset.index);
+            let val = parseInt(input.value);
+
+            if (isNaN(val)) {
+                val = 0;
+                input.value = val; // reflect correction in the UI
+            }
+
             updateValue(i, 0, val);
+
+            requestAnimationFrame(() => {
+                const active = document.activeElement;
+
+                if (!active || !active.classList.contains('list-input')) {
+                    lastFocusedIndex = null;
+                    renderListAndSet();
+                }
+                
+            });
+
+        });
+
+        input.addEventListener('keydown', (e) => {
+            const i = parseInt(e.target.dataset.index);
+
+            // Handle Arrow Up/Down
+            if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                const delta = e.key === 'ArrowUp' ? +1 : -1;
+                const prev = baseList[i];
+                updateValue(i, delta);
+
+                if (baseList[i] !== prev) renderListAndSet();
+
+            }
+
+            if (e.key === 'Enter' || e.key === 'Escape') {
+                e.preventDefault();
+                lastFocusedIndex = null;
+                renderListAndSet();
+            }
+
         });
 
             // scroll wheel editing
@@ -96,32 +198,24 @@ function renderList(length) {                                   // called everyt
             e.preventDefault();                                 // prevent the page from scrolling
             const i = parseInt(e.target.dataset.index);
             const delta = e.deltaY < 0 ? +1 : -1;
+            const prev = baseList[i];
             updateValue(i, delta);
-        })
 
-            // arrow key editing
-        input.addEventListener('keydown', (e) => {              // this event will edit the value in the <input> with the up and down keys
-            const i = parseInt(e.target.dataset.index);
+            if (baseList[i] !== prev) renderListAndSet();
 
-            if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-                e.preventDefault();
-                const delta = e.key === 'ArrowUp' ? +1 : -1;                
-                updateValue(i, delta);
-                const newInput = document.querySelector(`input[data-index='${i}']`);
-            
-                if (newInput) newInput.focus();
-            
-            }
+        });
 
-        })
+        input.addEventListener('focus', () => {
+            lastFocusedIndex = index;
+        });
 
         // down arrow button
         const downArrow = document.createElement('div');        // creating a div for the up arrow
         downArrow.className = 'arrow down';
         downArrow.textContent = '▼';
-        downArrow.addEventListener('click', () => updateValue(index, -1));
+        attachHoldHandler(downArrow, index, -1);
 
-        // assemble previous elements
+        // assemble elements in wrapper
         wrapper.appendChild(upArrow);
         wrapper.appendChild(input);
         wrapper.appendChild(downArrow);
@@ -135,6 +229,46 @@ function renderList(length) {                                   // called everyt
         
     });
 
+    const currentlyFocused = document.activeElement;
+    const expectedFocusedId = `list-input-${lastFocusedIndex}`;
+
+    if (
+        lastFocusedIndex !== null &&
+        (!currentlyFocused || currentlyFocused.id !== expectedFocusedId)
+    ) {
+        const toFocus = document.getElementById(expectedFocusedId);
+
+        if (toFocus) {
+
+            setTimeout(() => {
+                toFocus.focus();
+                toFocus.select();
+            }, 0);
+
+        }
+
+    }
+
+}
+
+function renderSetList(length) {
+    const setListEl = document.getElementById('set-list');
+    setListEl.innerHTML = '';
+    const visibleList = baseList.slice(0, length);
+    const uniqueValues = [... new Set(visibleList)];
+
+    uniqueValues.forEach((value, index) => {
+        const span = document.createElement('span');
+        span.className = 'set-item';
+        span.textContent = value;
+        setListEl.appendChild(span);
+
+        if (index < uniqueValues.length - 1) {
+            const comma = document.createElement('span');
+            comma.textContent = ' , ';
+            setListEl.appendChild(comma);
+        }
+    })
 }
 
 /*
@@ -151,11 +285,11 @@ document.addEventListener("mousemove", (e) => {                 // adding the 'm
 
     if (Math.abs(dx) >= pixelsPerItem) {                        // when dx reaches the threshold of pixelsPerItem
         const direction = Math.sign(dx);                        // direction of growth
-        const newLength = currentLength + direction             // setting newLenfth as the previous length + direction
+        const newLength = currentLength + direction;            // setting newLenfth as the previous length + direction
 
         if (newLength >= 0 && newLength <= baseList.length) {   // validating the newLength stays within the baseList length
             currentLength = newLength;                          // updating the length of the current displayed list
-            renderList(currentLength);                          // updating the numListEL <span>
+            renderListAndSet();                                 // updating the numListEL <span>
             startX += direction * pixelsPerItem;                // update the starting position
         }
     }
@@ -180,4 +314,4 @@ INITIAL RENDER **********************
 *************************************
 */
 
-renderList(currentLength);
+renderListAndSet();
