@@ -7,7 +7,6 @@ CONSTANTS AND VARIABLES *************
 
 const MIN_VALUE = -100;
 const MAX_VALUE = 100;
-const INITIAL_LIST = [1, 2, 3];
 const INITIAL_LIST_LENGTH = 4;
 const MAX_LIST_LENGTH = 10;
 const numListElement = document.getElementById('num-list');
@@ -24,9 +23,10 @@ CLASSES *****************************
 
 class NumberList {
 
-    constructor(container, initialValues) {
+    constructor(container, fullList, visibleListLength = fullList.length) {
         this.container = container;
-        this.values = [...initialValues];
+        this.fullList = [...fullList];
+        this.visibleListLength = visibleListLength;
         this.wrappers = [];
 
         this._render();
@@ -34,22 +34,24 @@ class NumberList {
 
     _render() {
         this.container.innerHTML = '';
-        this.wrappers = this.values.map((value, index) => {
-            const wrapper = new InputWrapper(index, value, this._handleValueChange.bind(this));
+        this.wrappers = [];
+
+        for (let i = 0; i < this.visibleListLength; i++) {
+            const wrapper = new InputWrapper(i, this.fullList[i], this._handleValueChange.bind(this));
             this.container.appendChild(wrapper.getElement());
 
-            if(index < this.values.length - 1) {
+            if (i < this.visibleListLength.length - 1) {
                 this.container.appendChild(document.createTextNode(' , '));
             }
 
-            return wrapper;
+            this.wrappers.push(wrapper);
 
-        });
+        }
 
     }
 
     _handleValueChange(index, newValue) {
-        this.values[index] = newValue;
+        this.fullList[index] = newValue;
     }
 
 }
@@ -62,16 +64,16 @@ class InputWrapper {
         this.wrapper = document.createElement('div');
         this.wrapper.className = 'input-wrapper';
 
-        this.upArrow = new Arrow('up', () => this._updatevalue(+1));
+        this.upArrow = new Arrow('up', () => this._updateValue(+1));
         this.input = new NumberInput(value);
-        this.downArrow = new Arrow('down', () => this._updatevalue(-1));
+        this.downArrow = new Arrow('down', () => this._updateValue(-1));
 
         this.wrapper.appendChild(this.upArrow.getElement());
         this.wrapper.appendChild(this.input.getElement());
         this.wrapper.appendChild(this.downArrow.getElement());
     }
     
-    _updatevalue(delta) {
+    _updateValue(delta) {
         let current = this.input.getValue();
         let updated = clamp(current + delta);
         this.input.setValue(updated);
@@ -164,4 +166,4 @@ MAIN ********************************
 *************************************
 */
 
-new NumberList(numListElement, INITIAL_LIST);
+const numberList = new NumberList(numListElement, BASE_LIST, INITIAL_LIST_LENGTH);
