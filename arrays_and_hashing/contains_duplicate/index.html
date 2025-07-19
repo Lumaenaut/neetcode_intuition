@@ -4,13 +4,8 @@ To do:
         Coding:
         
         Functions:
-            The initial list will hold random values and will have an initial length of 4
-            Resize the list with the handle. Max length of list is 10.
-            Update the set everytime the list is updated.
-            When the random button is pressed only the current displayed values in the list will be randomized.
 
         Bugs:
-            What defines the arrows hiding and showing whe nthe mouse is nearby?
 
         Section visibility:
             The intuition section should be the one that's visible by default.
@@ -20,8 +15,8 @@ To do:
 
     Aesthetics:
         Change font and size
-            The arrows are too small and difficult to press
-            change separation between each <div> container. It looks too big.
+            The arrows are too small and difficult to press.
+            change separation between each wrapper. Separation between each comma looks too big.
             Need more separation between the random button and the rendered set.
                 
         Create a dark and a light theme
@@ -59,13 +54,13 @@ To do:
             <h2>intuition</h2>
             <div class="intuition-list-wrapper">
                 <p>nums = [ <div id="num-list"></div> ]</p>
-                <div id="handle" title="Drag to resize list">&lt;&gt;</div>
+                <div id="resize-handle" title="Drag to resize list">&lt;&gt;</div>
             </div>
             <div class="button-container">
                 <button id="randomize-btn">random</button>
             </div>
-            <div class="set-list-wrapper">
-                <p>set(nums) = { <div id="set-list"></div> }</p>
+            <div class="num-set-wrapper">
+                <p>set(nums) = { <div id="num-set"></div> }</p>
             </div>
         </section>
 
