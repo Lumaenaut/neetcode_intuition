@@ -26,6 +26,7 @@ const numberListElement = document.getElementById('num-list');
 const resizeHandleElement = document.getElementById('resize-handle');
 const randomButtonElement = document.getElementById('randomize-btn');
 const numberSetElement = document.getElementById('num-set');
+const collapsibleSectionElement = document.getElementById('code');
 
 /*
 *************************************
@@ -274,6 +275,28 @@ class NumberSet {
 
 }
 
+class CollapsibleSection {
+
+    constructor(element) {
+        this.element = element;
+        this.header = this.element.querySelector('.section-header');
+        this.content = this.element.querySelector('.collapsible-content');
+        this.arrow = this.element.querySelector('.toggle-arrow');
+        this._init();
+    }
+
+    _init() {
+        this.content.style.display = 'none';
+
+        this.header.addEventListener('click', () => {
+            const expanded = this.element.classList.toggle('expanded');
+            this.content.style.display = expanded ? 'block' : 'none';
+        });
+    
+    }
+
+}
+
 /*
 *************************************
 FUNCTIONS ***************************
@@ -298,3 +321,4 @@ const numberList = new NumberList(numberListElement, BASE_LIST, INITIAL_LIST_LEN
 const resizeHandle = new ResizeHandle(resizeHandleElement, numberList);
 const randomBtn = new RandomButton(randomButtonElement, numberList);
 const numberSet = new NumberSet(numberSetElement, numberList);
+const collapsibleSection = new CollapsibleSection(collapsibleSectionElement);

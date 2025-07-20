@@ -69,10 +69,13 @@ To do:
             <section id="pseudocode">
                 <h2>pseudocode</h2>
             </section>
-
-            <section id="code">
-                <h2>code</h2>
-                <pre><code>
+            <section id="code" class="collapsible">
+                <div class="section-header">
+                    <h2>code</h2>
+                    <span class="toggle-arrow">▼</span>
+                </div>
+                <div class="collapsible-content">
+                    <pre><code>
 class Solution:
 
     def has_duplicate(self, nums: list[int]) -> bool:
@@ -84,9 +87,9 @@ nums = [1,2,3,3]
 sol = Solution()
 
 print(sol.has_duplicate(nums))
-                </code></pre>
+                    </code></pre>
+                </div>                
             </section>
-
             <section id="efficiency">
                 <h2>efficiency</h2>
                 <p>Why is this efficient?</p>
